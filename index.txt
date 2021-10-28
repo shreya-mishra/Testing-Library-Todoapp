@@ -1,0 +1,182 @@
+first we have to install react native testing library in order to test our application
+
+visit this link https://callstack.github.io/react-native-testing-library/docs/getting-started/
+to read more about this library
+
+install this library using this below command
+npm install --save-dev @testing-library/react-native
+
+
+When you create an app using npm init it already set up the environment of jest.
+Where jest is a test runner basically jesr is going to be responsible for finding and running every test as you write
+
+So here you dont have to do anything , the only thing we have to do to start our test is :
+Create a new file and every test file must contain one specific keywrod
+this is a "Test File"
+
+we will create one file name App.spec.js
+if we write this command 
+npm test
+
+it will fail basically every test should have one test condition
+screenshot // 
+
+So now the question is what we are going to test 
+As above i have mentioned 
+special integration test is onyl care about reliability that make sure that you can trust the test 
+
+Now we have to think what we want to test here 
+
+So basically it is a todo list o is aspect to create items 
+ in this case 
+ let me do this 
+
+ // create an item
+ //create multiple items
+ // delete an item
+
+ //should show an error whenever i try to create an invalid todo
+ // error warning should dissappear once valid item is created
+
+ So now the question is how we will do this exactly ??
+
+ So when we talk about react native testing library it has a very awesome way of testing stuff
+ it expect you to behave as a  user of the application
+
+now that means instead of knowing that what you are doing basically just going to inspect the stuff that is going to be user to see
+for instance, if we want to select this create item button in our app 
+
+what i have to do we gonna search giant plus button on my screen 
+thats it that how we gonna query our first stuff inside react native testing library 
+
+May be at this point you have not understood but as long as we go further and test our stuff you will understand this for sure!
+
+now here we go -
+
+first we need to import few things
+that are -
+import App from './App';
+import {render} from '@test-library/react-native'
+
+
+May be you are not clear with jest but jest is someting which is available which allows us to write down our test
+and one of them is called 
+
+
+lets create a simple example
+
+it("Should create an item", () => {
+  const test = 2 + 2;
+    expect(test).toEqual(3);
+});
+
+// screenshot
+
+On terminal it has failed because it has wrong value , it expect to be 4
+    expect(test).toEqual(4);
+
+Thats basically our test gonna work !
+
+But ok ! we generated like a super simple equation like assigning a value to a variable 
+but how do we aply the same kind of logic to a component there is basically function returns us a lot a effecient methods
+to scan down our component and interact with it .
+
+So for an instance if i instead of like assigning the value to a named variable I just destructure it
+
+I will write :
+ItemsList('Should create an item', () => {
+  const {getByText} = render(<App />);
+
+  const addItemButton = getByText('+'); // witht hsi line it will find this '+' button
+});
+then thats not enough we have to press this button and verify it whther it is adding the todos or not
+ now how do we find text input button because even though we have placeholder but we dont have text in there
+ so now we have another method for this which is getByPlaceholderText
+
+here we go ...
+ItemsList('Should create an item', () => {
+  const {getByText, getByPlaceholderText} = render(<App />);
+
+  const addItemButton = getByText('+');
+  const textInput = getByPlaceholderText('Add Todo...');
+});
+
+
+
+ now we will check to type something in that input box.
+thankfully we have so many components in testing library like 
+fire event => so whenever we want to interact with anything on a screen we are going to use fireEvent )
+  fireEvent.changeText(textInput, 'first todo');
+
+now we have to press the addItem button so again we have to use fire event but we cannot use change text, we have to use normal press
+    fireEvent.press(addItemButton);
+
+=> for so far out item is created 
+so now we have to make an assertion whatever we have just created really exist in our code 
+but how do we do that 
+
+So now first we have to check first todo  whther it is created which we have created above in testing 
+// well basically we can rely on jest globally available 'expect' method
+    const createdItem = getByText(createdItemText);
+
+  expect(createdItem).not.toBeNull();
+
+// screenshot of passed test cases
+
+Now second test i want to do i want to create more than one item 
+but basically its the same test that we have created but in this instead of creating only  one item 
+we will create bunch of them
+
+code + screenshot 
+
+Taking about delete an item so basically by the end of creation of an items
+we just have to find 'X' button and click on it    and we should make sure our item has dissappeared.
+
+now we have to create items all over again 
+
+paste that code 
+
+and for seeing whether that text is deleted or not ,
+we cannot use getByText because it is for the items that are already exist.
+
+we will use another method that is queryByText.
+
+The way it works , really similar to getByText vasically it doesnt return us whenever our text doesnt exist
+
+
+code + snapshot
+
+So basically the way that we make the error component show in our application 
+is when we try to create any item when we do this we it should display an error
+
+code + snapshot 
+
+ now we have one last test that is , error warning should dissappear once a valid item is created 
+
+
+code+snapshot
+ 
+
+And thats it 
+What we have to do in real case example its just create a file for each document of the app , like each component , each route or each screens ,what ever fits u best 
+generally create one integration test for each route for the application  or do whatever feel like like whatever suits you 
+
+
+I really hope I am abble to help you through this blog 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
