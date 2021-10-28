@@ -8,11 +8,9 @@ it('Should create an item', () => {
 
   const addItemButton = getByText('+');
   const textInput = getByPlaceholderText('Add Todo...');
-  // fire event => so whenever we want to interact with anything on a screen we are going to use fireEvent )
   const createdItemText = 'first todo';
   fireEvent.changeText(textInput, createdItemText);
 
-  // now we have to press the addItem button so again we have to use fire event but we cannot use change text, we have to use normal press
   fireEvent.press(addItemButton);
   const createdItem = getByText(createdItemText);
   expect(createdItem).not.toBeNull();
@@ -25,7 +23,6 @@ it('Should create multiple item', () => {
 
   const addItemButton = getByText('+');
   const textInput = getByPlaceholderText('Add Todo...');
-  // fire event => so whenever we want to interact with anything on a screen we are going to use fireEvent )
   const createdItemText_1 = 'first todo';
   const createdItemText_2 = 'second todo';
   fireEvent.changeText(textInput, createdItemText_1);
@@ -48,7 +45,6 @@ it('Should delete an item', () => {
 
   const addItemButton = getByText('+');
   const textInput = getByPlaceholderText('Add Todo...');
-  // fire event => so whenever we want to interact with anything on a screen we are going to use fireEvent )
   const createdItemText = 'first todo';
   fireEvent.changeText(textInput, createdItemText);
   fireEvent.press(addItemButton);
